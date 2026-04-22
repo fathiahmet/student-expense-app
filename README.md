@@ -1,17 +1,43 @@
 # student_expense_app
 
-A new Flutter project.
+-> A Flutter application to help students track and manage their daily expenses.
+
+## Features
+
+- Expense Tracking: Log daily spending with categories.
+- Visual Analytics: View spending habits through charts.
+- Dark Mode: Easy on the eyes for late-night budgeting.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- [Flutter SDK](https://flutter.dev) installed on your machine.
+- An editor like [Visual Studio Code](https://visualstudio.com) or Android Studio.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repo:
+
+   **git clone https://github.com**
+
+2. Install dependencies:
+
+   **flutter pub get**
+
+3. Run the app:
+
+   **flutter run**
+
+## Tech Stack
+
+- Framework: [Flutter](https://flutter.dev)
+- Language: [Dart](https://dart.dev)
+
+## Screenshots
+
+     Home Screen             Add Expense                Settings
+
+[Home](link_to_image) | [Add](link_to_image) | [Settings](link_to_image)
+
+Made by [Fathi Ahmed]
