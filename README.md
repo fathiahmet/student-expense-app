@@ -1,11 +1,19 @@
-# student_expense_app
+# App Name = "EduPay"
 
--> A Flutter application to help students track and manage their daily expenses.
+## App Overview
+
+-> EduPay is a Flutter-based Student Expense control mobile app that allows students to track their income, manage daily expenses, set monthly budgets and view their financial summaries.
+
+## Goals
+
+. Help students monitor and manage their finances
+. Provide a clear record of all income and expenses
+. Enable budget planning and tracking
+. Offer a user-friendly interface suitable for beginners
 
 ## Features
 
 - Expense Tracking: Log daily spending with categories.
-- Visual Analytics: View spending habits through charts.
 - Dark Mode: Easy on the eyes for late-night budgeting.
 
 ## Getting Started
@@ -29,15 +37,28 @@
 
    **flutter run**
 
+## Development roadmap
+
+1. Set up Flutter project 
+2. Integrate Firebase for backend 
+3. Implement user authentication (login/register) 
+4. Create dashboard with income, expense, and balance 
+5. Add income and expense forms 
+6. Implement budget management 
+7. Build expense history with edit/delete functionality 
+8. Add icons and visual improvements 
+9. Test app functionality 
+10. Finalize for submission
+
 ## Tech Stack
 
 - Framework: [Flutter](https://flutter.dev)
 - Language: [Dart](https://dart.dev)
+- Backend: [Firebase](https://firebase.google.com)
+- Database: [Firestore]
 
 ## Screenshots
 
      Home Screen             Add Expense                Settings
 
-[Home](link_to_image) | [Add](link_to_image) | [Settings](link_to_image)
-
-Made by [Fathi Ahmed]
+[Home](link_to_image) | [Add Expenses](link_to_image) | [Settings](link_to_image)
