@@ -1,171 +1,240 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import '../firebase_options.dart';
 
-// void main() {
-//   runApp(const EduPayApp());
-// }
+//import '../screens/splash_screen.dart';
 
-// class EduPayApp extends StatelessWidget {
-//   const EduPayApp({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: const LoginScreen(),
-//     );
-//   }
-// }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const EduPayApp());
+}
 
-// class LoginScreen extends StatefulWidget {
-//   const LoginScreen({super.key});
-//   @override
-//   State<LoginScreen> createState() => LoginScreenState();
-// }
+class EduPayApp extends StatelessWidget {
+  const EduPayApp({super.key});
 
-// class LoginScreenState extends State<LoginScreen> {
-//   bool isObscured = true;
-//   @override
-//   Widget build(BuildContext context) {
-//     const Color primaryBlue = Color(0xFF3D4FA3);
-//     return Scaffold(
-//       backgroundColor: primaryBlue,
-//       body: SafeArea(
-//         child: Column(
-//           children: [
-//             const SizedBox(height: 30),
-//             const Text(
-//               "EduPay",
-//               style: TextStyle(
-//                 color: Colors.white,
-//                 fontSize: 32,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             const SizedBox(height: 5),
-//             const Text(
-//               "Empowering Student Future",
-//               style: TextStyle(color: Colors.white70, fontSize: 14),
-//             ),
-//             const SizedBox(height: 40),
-//             const Text(
-//               "Welcome Back!",
-//               style: TextStyle(
-//                 color: Colors.white,
-//                 fontSize: 28,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             const SizedBox(height: 40),
-//             //Bottom Container card
-//             Expanded(
-//               child: Container(
-//                 width: double.infinity,
-//                 padding: const EdgeInsets.symmetric(
-//                   horizontal: 25,
-//                   vertical: 30,
-//                 ),
-//                 decoration: const BoxDecoration(
-//                   color: Colors.white,
-//                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-//                 ),
-//                 child: Column(
-//                   children: [
-//                     const Text(
-//                       "Sign in",
-//                       style: TextStyle(
-//                         fontSize: 22,
-//                         fontWeight: FontWeight.bold,
-//                       ),
-//                     ),
-//                     const SizedBox(height: 30),
-//                     //Email fild
-//                     _buildInputField(
-//                       icon: Icons.email, hint: "Email"),
-//                     const SizedBox(height: 20),
-//                     //password field
-//                     _buildInputField(
-//                       icon: Icons.lock,
-//                       hint: "password",
-//                       isPassword: true,
-//                     ),
-//                     const SizedBox(height: 30),
-//                     //sign in button
-//                     SizedBox(
-//                       width: double.infinity,
-//                       height: 55,
-//                       child: ElevatedButton(
-//                         onPressed: () {},
-//                         style: ElevatedButton.styleFrom(
-//                           backgroundColor: primaryBlue,
-//                           shape: RoundedRectangleBorder(
-//                             borderRadius: BorderRadius.circular(30),
-//                           ),
-//                         ),
-//                         child: const Text(
-//                           "sign in",
-//                           style: TextStyle(fontSize: 18),
-//                         ),
-//                       ),
-//                     ),
-//                     const SizedBox(height: 25),
-//                     const Text(
-//                       "Forgot password",
-//                       style: TextStyle(color: Colors.black54),
-//                     ),
-//                     const SizedBox(height: 20),
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: const [
-//                         Text("Don't have an account ? "),
-//                         Text(
-//                           "SIGN UP",
-//                           style: TextStyle(
-//                             color: primaryBlue,
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color(
+          0xFFF7F8F3,
+        ), // Light cream background
+        fontFamily: 'sans-serif',
+      ),
+      home: const LoginPage(),
+    );
+  }
+}
 
-//   //input field widget
-//   Widget _buildInputField({
-//     required IconData Icon,
-//     required String hint,
-//     bool isPassword = false,
-//   }) {
-//     return TextField(
-//       obscureText: isPassword ? isObscured : false,
-//       decoration: InputDecoration(
-//         prefixIcon: Icon(icon, Color: Colors.black),
-//         hintText: hint,
-//         filled: true,
-//         fillColor: Colors.grey.shade200,
-//         contentPadding: const EdgeInsets.symmetric(vertical: 18),
-//         border: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(30),
-//           borderSide: BorderSide.none,
-//         ),
-//         suffixIcon: isPassword
-//             ? IconButton(
-//                 icon: Icon(
-//                   isObscured ? Icons.visibility : Icons.visibility_off,
-//                 ),
-//                 onPressed: () {
-//                   setState(() {
-//                     isObscured = !isObscured;
-//                   });
-//                 },
-//               )
-//             : null,
-//       ),
-//     );
-//   }
-// }
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool _isObscured = true;
+  final Color darkTeal = const Color(0xFF134141); // Primary brand color
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 60),
+              // Logo Section
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: darkTeal,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.school_outlined,
+                    color: Color(0xFFC5B358), // Gold/Tan icon
+                    size: 40,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              // Brand Name
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: "Edu",
+                      style: TextStyle(color: darkTeal),
+                    ),
+                    const TextSpan(
+                      text: "pay",
+                      style: TextStyle(color: Color(0xFFC5A36A)),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                "Welcome back to eduPay",
+                style: TextStyle(color: Colors.grey, fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Sign In",
+                style: TextStyle(
+                  color: darkTeal,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 40),
+
+              // Login Card
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(28),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.03),
+                      blurRadius: 20,
+                      spreadRadius: 5,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Email Address",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _buildTextField(
+                      hint: "you@example.com",
+                      icon: Icons.mail_outline,
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Password",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _buildTextField(
+                      hint: "Enter your password",
+                      icon: Icons.lock_outline,
+                      isPassword: true,
+                    ),
+                    const SizedBox(height: 24),
+                    // Login Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 55,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: darkTeal,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Footer Link
+                    Center(
+                      child: RichText(
+                        text: TextSpan(
+                          style: const TextStyle(
+                            color: Colors.black54,
+                            fontSize: 14,
+                          ),
+                          children: [
+                            const TextSpan(text: "Don't have an account? "),
+                            TextSpan(
+                              text: "Register",
+                              style: TextStyle(
+                                color: darkTeal,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 40),
+              const Text(
+                "Secure login powered by eduPay",
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required String hint,
+    required IconData icon,
+    bool isPassword = false,
+  }) {
+    return TextField(
+      obscureText: isPassword ? _isObscured : false,
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+        prefixIcon: Icon(icon, color: Colors.grey),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  _isObscured
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                  color: Colors.grey,
+                  size: 20,
+                ),
+                onPressed: () => setState(() => _isObscured = !_isObscured),
+              )
+            : null,
+        filled: true,
+        fillColor: const Color(0xFFF1F4F1),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16),
+      ),
+    );
+  }
+}
