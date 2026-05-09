@@ -39,15 +39,15 @@
 
 ## Development roadmap
 
-1. Set up Flutter project 
-2. Integrate Firebase for backend 
-3. Implement user authentication (login/register) 
-4. Create dashboard with income, expense, and balance 
-5. Add income and expense forms 
-6. Implement budget management 
-7. Build expense history with edit/delete functionality 
-8. Add icons and visual improvements 
-9. Test app functionality 
+1. Set up Flutter project
+2. Integrate Firebase for backend
+3. Implement user authentication (login/register)
+4. Create dashboard with income, expense, and balance
+5. Add income and expense forms
+6. Implement budget management
+7. Build expense history with edit/delete functionality
+8. Add icons and visual improvements
+9. Test app functionality
 10. Finalize for submission
 
 ## Tech Stack

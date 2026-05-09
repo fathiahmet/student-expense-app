@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111798436989",
+    "project_id": "edupay-app-96f88",
+    "storage_bucket": "edupay-app-96f88.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111798436989:android:2a79b6425e71ea164d9d14",
+        "android_client_info": {
+          "package_name": "com.example.student_expense_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnAaJKpMp8k4ET8s2IHwEbjOE1ub-HOkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
