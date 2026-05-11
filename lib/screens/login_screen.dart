@@ -1,239 +1,220 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import '../firebase_options.dart';
-
-//import '../screens/splash_screen.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const EduPayApp());
-}
-
-class EduPayApp extends StatelessWidget {
-  const EduPayApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(
-          0xFFF7F8F3,
-        ), // Light cream background
-        fontFamily: 'sans-serif',
-      ),
-      home: const LoginPage(),
-    );
-  }
-}
+import '../services/auth_service.dart';
+import '../utils/design_system.dart';
+import 'register_screen.dart';
+import 'dashboard_screen.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState(); // Renamed for consistency
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _isObscured = true;
-  final Color darkTeal = const Color(0xFF134141); // Primary brand color
+  final _formKey = GlobalKey<FormState>();
+  final _emailCtrl = TextEditingController();
+  final _passCtrl = TextEditingController();
+  final _resetEmailCtrl = TextEditingController();
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _emailCtrl.dispose();
+    _passCtrl.dispose();
+    _resetEmailCtrl.dispose();
+    super.dispose();
+  }
+
+  // Consolidated Reset Logic
+  Future<void> _handlePasswordReset() async {
+    final email = _resetEmailCtrl.text.trim();
+    if (email.isEmpty || !email.contains('@')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid email address')),
+      );
+      return;
+    }
+
+    try {
+      // Fixed Typo: sendPasswordResetEmail (Capital P)
+      await AuthService().sendPasswordResetEmail(email);
+
+      if (!mounted) return;
+      Navigator.pop(context); // Close dialog
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password reset email sent! Check your inbox.'),
+          backgroundColor: AppColors.primary,
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString()), backgroundColor: AppColors.error),
+      );
+    }
+  }
+
+  void _showForgotPasswordDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Reset Password'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'Enter your email address to receive reset instructions.',
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _resetEmailCtrl,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                labelText: 'Email Address',
+                prefixIcon: Icon(Icons.mail_outline),
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: _handlePasswordReset, // Use the consolidated method
+            child: const Text('Send Reset Link'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _login() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _isLoading = true);
+
+    try {
+      await AuthService().signIn(_emailCtrl.text.trim(), _passCtrl.text.trim());
+      if (!mounted) return;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const DashboardScreen()),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString()), backgroundColor: AppColors.error),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 60),
-              // Logo Section
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    color: darkTeal,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.school_outlined,
-                    color: Color(0xFFC5B358), // Gold/Tan icon
-                    size: 40,
-                  ),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const AppLogo(),
+                const SizedBox(height: 24),
+                const Text(
+                  'Welcome back to edupay',
+                  style: TextStyle(color: AppColors.textLight, fontSize: 16),
                 ),
-              ),
-              const SizedBox(height: 12),
-              // Brand Name
-              RichText(
-                text: TextSpan(
-                  style: const TextStyle(
-                    fontSize: 24,
+                const SizedBox(height: 8),
+                const Text(
+                  'Sign In',
+                  style: TextStyle(
+                    fontSize: 32,
                     fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
                   ),
-                  children: [
-                    TextSpan(
-                      text: "Edu",
-                      style: TextStyle(color: darkTeal),
-                    ),
-                    const TextSpan(
-                      text: "pay",
-                      style: TextStyle(color: Color(0xFFC5A36A)),
-                    ),
-                  ],
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "Welcome back to eduPay",
-                style: TextStyle(color: Colors.grey, fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Sign In",
-                style: TextStyle(
-                  color: darkTeal,
-                  fontSize: 32,
-                  fontWeight: FontWeight.w900,
+                const SizedBox(height: 40),
+                LabeledInput(
+                  label: 'Email Address',
+                  hint: 'you@example.com',
+                  prefixIcon: Icons.mail_outline,
+                  controller: _emailCtrl,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (v) => v == null || v.isEmpty || !v.contains('@')
+                      ? 'Enter valid email'
+                      : null,
                 ),
-              ),
-              const SizedBox(height: 40),
-
-              // Login Card
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(28),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.03),
-                      blurRadius: 20,
-                      spreadRadius: 5,
-                    ),
-                  ],
+                LabeledInput(
+                  label: 'Password',
+                  hint: 'Enter your password',
+                  prefixIcon: Icons.lock_outline,
+                  controller: _passCtrl,
+                  isPassword: true,
+                  validator: (v) =>
+                      v == null || v.length < 6 ? 'Minimum 6 characters' : null,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Email Address",
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () => _showForgotPasswordDialog(context),
+                    child: const Text(
+                      'Forgot password?',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                        fontSize: 14,
+                        color: Color(0xFF0D47A1),
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    _buildTextField(
-                      hint: "you@example.com",
-                      icon: Icons.mail_outline,
-                    ),
-                    const SizedBox(height: 20),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                CustomButton(
+                  text: 'Login',
+                  onPressed: _login,
+                  isLoading: _isLoading,
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     const Text(
-                      "Password",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
+                      "Don't have an account? ",
+                      style: TextStyle(color: AppColors.textLight),
                     ),
-                    const SizedBox(height: 8),
-                    _buildTextField(
-                      hint: "Enter your password",
-                      icon: Icons.lock_outline,
-                      isPassword: true,
-                    ),
-                    const SizedBox(height: 24),
-                    // Login Button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 55,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: darkTeal,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    GestureDetector(
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RegisterScreen(),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    // Footer Link
-                    Center(
-                      child: RichText(
-                        text: TextSpan(
-                          style: const TextStyle(
-                            color: Colors.black54,
-                            fontSize: 14,
-                          ),
-                          children: [
-                            const TextSpan(text: "Don't have an account? "),
-                            TextSpan(
-                              text: "Register",
-                              style: TextStyle(
-                                color: darkTeal,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                      child: const Text(
+                        'Register',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 40),
-              const Text(
-                "Secure login powered by eduPay",
-                style: TextStyle(color: Colors.grey, fontSize: 12),
-              ),
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 40),
+                const Text(
+                  'Secure login powered by edupay',
+                  style: TextStyle(color: Colors.black38, fontSize: 12),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required String hint,
-    required IconData icon,
-    bool isPassword = false,
-  }) {
-    return TextField(
-      obscureText: isPassword ? _isObscured : false,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-        prefixIcon: Icon(icon, color: Colors.grey),
-        suffixIcon: isPassword
-            ? IconButton(
-                icon: Icon(
-                  _isObscured
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                  color: Colors.grey,
-                  size: 20,
-                ),
-                onPressed: () => setState(() => _isObscured = !_isObscured),
-              )
-            : null,
-        filled: true,
-        fillColor: const Color(0xFFF1F4F1),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 16),
       ),
     );
   }
