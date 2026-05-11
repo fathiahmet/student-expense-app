@@ -1,47 +1,105 @@
-// import 'package: cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../models/expense_model.dart';
+import '../models/income_model.dart';
 
-// class FirestoreService {
-//   final String uid;
-//   FirestoreService({required this.uid});
+class FirestoreService {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-//   //Users collection reference
-//   final CollectionReference userCollection = FirebaseFirestore.instance
-//       .collection('users');
+  String? get _userId => _auth.currentUser?.uid;
 
-//   //Add expense
-//   Future<void> addExpense(
-//     String category,
-//     double amount,
-//     String description,
-//   ) async {
-//     return await userCollection.doc(uid).collection('expenses').add({
-//       'category': category,
-//       'amount': amount,
-//       'description': description,
-//       'date': Timestamp.now(),
-//     });
-//   }
-// }
+  // --- Expenses ---
+  Stream<List<ExpenseModel>> getExpenses() {
+    if (_userId == null) return Stream.value([]);
+    return _db
+        .collection('users')
+        .doc(_userId)
+        .collection('expenses')
+        .orderBy('date', descending: true)
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => ExpenseModel.fromMap(doc.data(), doc.id))
+              .toList(),
+        );
+  }
 
-// //Add income
-// Future<void> addIncome(String source, double amount, String description) async {
-//   return await userCollection.doc(uid).collection('incomes').add({
-//     'source': source,
-//     'amount': amount,
-//     'description': description,
-//     'date': Timestamp.now(),
-//   });
-// }
+  Future<void> addExpense(ExpenseModel expense) async {
+    if (_userId != null) {
+      await _db
+          .collection('users')
+          .doc(_userId)
+          .collection('expenses')
+          .add(expense.toMap());
+    }
+  }
 
-// //Real-time stream of expenses
-// Stream<QuerySnapshot> get expenses {
-//   return userCollection.doc(uid).collection('expenses').snapshots();
-// }
+  Future<void> deleteExpense(String id) async {
+    if (_userId != null) {
+      await _db
+          .collection('users')
+          .doc(_userId)
+          .collection('expenses')
+          .doc(id)
+          .delete();
+    }
+  }
 
-// Future<void> deleteExpense(String expenseId) async {
-//   return await userCollection
-//       .doc(uid)
-//       .collection('expenses')
-//       .doc(expenseId)
-//       .delete();
-// }
+  // --- Income ---
+  Stream<List<IncomeModel>> getIncomes() {
+    if (_userId == null) return Stream.value([]);
+    return _db
+        .collection('users')
+        .doc(_userId)
+        .collection('income')
+        .orderBy('date', descending: true)
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => IncomeModel.fromMap(doc.data(), doc.id))
+              .toList(),
+        );
+  }
+
+  Future<void> addIncome(IncomeModel income) async {
+    if (_userId != null) {
+      await _db
+          .collection('users')
+          .doc(_userId)
+          .collection('income')
+          .add(income.toMap());
+    }
+  }
+
+  // --- Budget ---
+  Future<void> setBudget(double amount) async {
+    if (_userId != null) {
+      await _db
+          .collection('users')
+          .doc(_userId)
+          .collection('budget')
+          .doc('current')
+          .set({
+            'monthly_budget': amount,
+            'set_date': FieldValue.serverTimestamp(),
+          });
+    }
+  }
+
+  Stream<double> getBudget() {
+    if (_userId == null) return Stream.value(0.0);
+    return _db
+        .collection('users')
+        .doc(_userId)
+        .collection('budget')
+        .doc('current')
+        .snapshots()
+        .map((doc) {
+          if (doc.exists && doc.data() != null) {
+            return (doc.data()!['monthly_budget'] ?? 0.0).toDouble();
+          }
+          return 0.0;
+        });
+  }
+}
