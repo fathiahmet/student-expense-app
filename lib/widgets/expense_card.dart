@@ -16,29 +16,21 @@ class ExpenseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation:2,
-      margin:const EdgeInsets.symmetric(vertical:8, horizontal:16),
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: ListTile(
         leading: const CircleAvatar(
           backgroundColor: Colors.redAccent,
-        child: Column(
+          child: Icon(Icons.trending_down, color: Colors.white),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(date),
+        trailing: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: DesignSystem.titleStyle,
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              amount,
-              style: DesignSystem.amountStyle,
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              date,
-              style: DesignSystem.dateStyle,
-            ),
-          ],
+          children: [Text(amount), Text(date)],
         ),
       ),
     );
