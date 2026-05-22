@@ -13,7 +13,7 @@ class AppColors {
 
 class AppLogo extends StatelessWidget {
   final double size;
-  const AppLogo({Key? key, this.size = 150}) : super(key: key);
+  const AppLogo({super.key, this.size = 150});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class AppLogo extends StatelessWidget {
             color: AppColors.primary,
             shape: BoxShape.circle,
             border: Border.all(
-              color: AppColors.accent.withOpacity(0.5),
+              color: AppColors.accent.withValues(alpha: 0.5),
               width: 4,
             ),
           ),
@@ -73,7 +73,7 @@ class LabeledInput extends StatefulWidget {
   final String? Function(String?)? validator;
 
   const LabeledInput({
-    Key? key,
+    super.key,
     required this.label,
     required this.hint,
     required this.prefixIcon,
@@ -81,13 +81,14 @@ class LabeledInput extends StatefulWidget {
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
-  _LabeledInputState createState() => _LabeledInputState();
+  @override
+  LabeledInputState createState() => LabeledInputState();
 }
 
-class _LabeledInputState extends State<LabeledInput> {
+class LabeledInputState extends State<LabeledInput> {
   bool _obscureText = true;
 
   @override
@@ -146,11 +147,11 @@ class CustomButton extends StatelessWidget {
   final bool isLoading;
 
   const CustomButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
