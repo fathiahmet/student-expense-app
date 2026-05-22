@@ -4,7 +4,7 @@ import '../models/expense_model.dart';
 import '../utils/design_system.dart';
 
 class AddExpenseScreen extends StatefulWidget {
-  const AddExpenseScreen({Key? key}) : super(key: key);
+  const AddExpenseScreen({super.key});
 
   @override
   State<AddExpenseScreen> createState() => _AddExpenseScreenState();
@@ -54,7 +54,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               keyboardType: TextInputType.number,
             ),
             DropdownButtonFormField<String>(
-              value: _selectedCategory,
+              initialValue: _selectedCategory,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: AppColors.inputBg,
