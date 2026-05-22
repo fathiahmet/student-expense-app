@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import '../utils/design_system.dart';
 
 class ExpenseCard extends StatelessWidget {
   final String title;
@@ -7,11 +6,11 @@ class ExpenseCard extends StatelessWidget {
   final String date;
 
   const ExpenseCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.amount,
     required this.date,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
