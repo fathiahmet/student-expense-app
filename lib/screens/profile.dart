@@ -3,7 +3,6 @@ import '../services/auth_service.dart';
 import '../utils/design_system.dart';
 import 'login_screen.dart';
 
-// 1. Change to StatefulWidget to allow UI updates when language changes
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -12,7 +11,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  // 2. Define the state variable to hold the selection
   String _selectedLanguage = 'English';
 
   void _logout(BuildContext context) async {
@@ -43,14 +41,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // 4. Helper for individual language buttons
+  // Helper for individual language buttons
   Widget _languageOption(String title, String value) {
     return SimpleDialogOption(
       onPressed: () {
         setState(() {
-          _selectedLanguage = title; // This updates the UI
+          _selectedLanguage = title; //updates the UI
         });
         Navigator.pop(context);
+
         // Add your logic here to change the app's actual Locale
         print("Selected Language Code: $value");
       },
@@ -85,7 +84,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
           const SizedBox(height: 40),
 
-          // --- REIMPLEMENTED LANGUAGE SECTION ---
           ListTile(
             leading: const Icon(Icons.language),
             title: const Text('Language'),

@@ -46,7 +46,7 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
             ),
             LabeledInput(
               label: 'Source',
-              hint: 'e.g., Parents, Scholarship',
+              hint: 'e.g: Parents, Scholarship',
               prefixIcon: Icons.source,
               controller: _sourceCtrl,
             ),

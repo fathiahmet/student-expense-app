@@ -22,7 +22,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Screens list is fine here, but we ensure the ProfileScreen is the one we fixed earlier
+    // List of screens for each tab
     final screens = [
       _buildDashboardContent(),
       const HistoryScreen(),
@@ -32,7 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return Scaffold(
       body: IndexedStack(
-        // Use IndexedStack to maintain state between tabs
+        // Using IndexedStack to maintain state of each screen when switching tabs
         index: _currentIndex,
         children: screens,
       ),
@@ -41,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         onTap: (index) => setState(() => _currentIndex = index),
         selectedItemColor: AppColors.primary,
         unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed, // Essential for 4 or more items
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
@@ -61,7 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildDashboardContent() {
     return SafeArea(
       child: SingleChildScrollView(
-        // Added scroll view to prevent overflow on small screens
+        // Added scrollview to prevent overflow on small screens
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

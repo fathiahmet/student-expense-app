@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/splash_screen.dart';
-//import 'screens/register_screen.dart';
 import 'utils/design_system.dart';
-import 'firebase_options.dart'; // Ensure this file is generated and properly configured
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Ensure you have generated firebase_options.dart via FlutterFire CLI
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const EduPayApp());
@@ -24,7 +22,7 @@ class EduPayApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: AppColors.primary,
         scaffoldBackgroundColor: AppColors.background,
-        fontFamily: 'Inter', // Or any preferred sans-serif font
+        fontFamily: 'Inter',
         appBarTheme: const AppBarTheme(
           backgroundColor: AppColors.background,
           elevation: 0,

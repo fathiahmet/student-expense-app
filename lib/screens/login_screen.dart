@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState(); // Renamed for consistency
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  // Consolidated Reset Logic
+  // Reset Logic
   Future<void> _handlePasswordReset() async {
     final email = _resetEmailCtrl.text.trim();
     if (email.isEmpty || !email.contains('@')) {
@@ -37,11 +37,10 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      // Fixed Typo: sendPasswordResetEmail (Capital P)
       await AuthService().sendPasswordResetEmail(email);
 
       if (!mounted) return;
-      Navigator.pop(context); // Close dialog
+      Navigator.pop(context);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -86,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
             child: const Text('Cancel'),
           ),
           ElevatedButton(
-            onPressed: _handlePasswordReset, // Use the consolidated method
+            onPressed: _handlePasswordReset,
             child: const Text('Send Reset Link'),
           ),
         ],
