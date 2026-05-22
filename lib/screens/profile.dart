@@ -4,7 +4,7 @@ import '../utils/design_system.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -13,7 +13,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String _selectedLanguage = 'English';
 
-  void _logout(BuildContext context) async {
+  void _logout() async {
     await AuthService().signOut();
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
@@ -51,7 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Navigator.pop(context);
 
         // Add your logic here to change the app's actual Locale
-        print("Selected Language Code: $value");
+        debugPrint("Selected Language Code: $value");
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -92,14 +92,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onTap: _showLanguageDialog,
           ),
 
-          // ---------------------------------------
           ListTile(
             leading: const Icon(Icons.notifications),
             title: const Text('Notifications'),
             trailing: Switch(
               value: true,
               onChanged: (v) {},
-              activeColor: AppColors.primary,
+              activeThumbColor: AppColors.primary,
             ),
           ),
 
@@ -121,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            onTap: () => _logout(context),
+            onTap: () => _logout(),
           ),
         ],
       ),
