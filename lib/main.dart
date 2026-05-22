@@ -12,7 +12,7 @@ void main() async {
 }
 
 class EduPayApp extends StatelessWidget {
-  const EduPayApp({Key? key}) : super(key: key);
+  const EduPayApp({super.key});
 
   @override
   Widget build(BuildContext context) {

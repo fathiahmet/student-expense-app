@@ -5,7 +5,7 @@ import '../models/expense_model.dart';
 import '../utils/design_system.dart';
 
 class HistoryScreen extends StatelessWidget {
-  const HistoryScreen({Key? key}) : super(key: key);
+  const HistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,12 @@ class HistoryScreen extends StatelessWidget {
       body: StreamBuilder<List<ExpenseModel>>(
         stream: FirestoreService().getExpenses(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          if (!snapshot.hasData || snapshot.data!.isEmpty)
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No expenses recorded yet.'));
+          }
 
           final expenses = snapshot.data!;
           return ListView.builder(
