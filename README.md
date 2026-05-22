@@ -1,4 +1,4 @@
-# App Name = "EduPay"
+# App Name: edupay
 
 ## App Overview
 
