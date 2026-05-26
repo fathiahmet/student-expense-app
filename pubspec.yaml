@@ -1,5 +1,5 @@
-name: edupay
-description: Edupay - student expense tracker with Firebase integration.
+name: edu_pay
+description: edu_pay - student expense tracker with Firebase integration.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
