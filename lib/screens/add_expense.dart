@@ -4,10 +4,10 @@ import '../models/expense_model.dart';
 import '../utils/design_system.dart';
 
 class AddExpenseScreen extends StatefulWidget {
-  const AddExpenseScreen({super.key});
+ const AddExpenseScreen({super.key});
 
-  @override
-  State<AddExpenseScreen> createState() => _AddExpenseScreenState();
+ @override
+ State<AddExpenseScreen> createState() => _AddExpenseScreenState();
 }
 
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
@@ -52,35 +52,35 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               prefixIcon: Icons.money_off,
               controller: _amountCtrl,
               keyboardType: TextInputType.number,
-            ),
-            DropdownButtonFormField<String>(
+              ),
+              DropdownButtonFormField<String>(
               initialValue: _selectedCategory,
               decoration: InputDecoration(
-                filled: true,
-                fillColor: AppColors.inputBg,
-                prefixIcon: const Icon(
-                  Icons.category,
-                  color: AppColors.textLight,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide.none,
-                ),
+              filled: true,
+              fillColor: AppColors.inputBg,
+              prefixIcon: const Icon(
+              Icons.category,
+              color: AppColors.textLight,
+              ),
+              border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide.none,
+              ),
               ),
               items: _categories
-                  .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                  .toList(),
+              .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+              .toList(),
               onChanged: (val) => setState(() => _selectedCategory = val!),
-            ),
-            const SizedBox(height: 20),
-            LabeledInput(
+              ),
+              const SizedBox(height: 20),
+              LabeledInput(
               label: 'Description',
               hint: 'What was this for?',
               prefixIcon: Icons.description,
               controller: _descCtrl,
-            ),
-            const SizedBox(height: 20),
-            CustomButton(
+              ),
+              const SizedBox(height: 20),
+              CustomButton(
               text: 'Save Expense',
               onPressed: _saveExpense,
               isLoading: _isLoading,

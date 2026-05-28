@@ -64,7 +64,7 @@ class HistoryScreen extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.delete, color: Colors.grey),
                         onPressed: () =>
-                            FirestoreService().deleteExpense(exp.id),
+                        FirestoreService().deleteExpense(exp.id),
                       ),
                     ],
                   ),

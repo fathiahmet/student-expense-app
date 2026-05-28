@@ -11,7 +11,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String _selectedLanguage = 'English';
 
   void _logout() async {
     await AuthService().signOut();
@@ -20,43 +19,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context,
       MaterialPageRoute(builder: (_) => const LoginPage()),
       (route) => false,
-    );
-  }
-
-  // 3. The Dialog Logic
-  void _showLanguageDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          title: const Text("Select Language"),
-          children: <Widget>[
-            _languageOption('English', 'english'),
-            _languageOption('Somali', 'somali'),
-            _languageOption('Amharic', 'amharic'),
-            _languageOption('Oromo', 'oromo'),
-          ],
-        );
-      },
-    );
-  }
-
-  // Helper for individual language buttons
-  Widget _languageOption(String title, String value) {
-    return SimpleDialogOption(
-      onPressed: () {
-        setState(() {
-          _selectedLanguage = title; //updates the UI
-        });
-        Navigator.pop(context);
-
-        // Add your logic here to change the app's actual Locale
-        debugPrint("Selected Language Code: $value");
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Text(title, style: const TextStyle(fontSize: 16)),
-      ),
     );
   }
 
@@ -69,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: ListView(
         padding: const EdgeInsets.all(24.0),
         children: [
-          // Profile Header
+        
           const CircleAvatar(
             radius: 50,
             backgroundColor: AppColors.primary,
@@ -80,16 +42,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             user?.email ?? 'User',
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-
-          const SizedBox(height: 40),
-
-          ListTile(
-            leading: const Icon(Icons.language),
-            title: const Text('Language'),
-            subtitle: Text(_selectedLanguage), // Shows current selection
-            trailing: const Icon(Icons.chevron_right, color: AppColors.primary),
-            onTap: _showLanguageDialog,
           ),
 
           ListTile(

@@ -32,7 +32,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return Scaffold(
       body: IndexedStack(
-        // Using IndexedStack to maintain state of each screen when switching tabs
         index: _currentIndex,
         children: screens,
       ),
@@ -61,7 +60,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildDashboardContent() {
     return SafeArea(
       child: SingleChildScrollView(
-        // Added scrollview to prevent overflow on small screens
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,8 +73,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             const SizedBox(height: 20),
-
-            // Nested StreamBuilders for Income and Expenses
+            
             StreamBuilder<List<IncomeModel>>(
               stream: _db.getIncomes(),
               builder: (context, incomeSnap) {
@@ -209,7 +206,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Text(
             '\$${amount.toStringAsFixed(2)}',
             style: TextStyle(
-              fontSize: title == 'Balance' ? 30 : 22, // Adjusted sizes slightly
+              fontSize: title == 'Balance' ? 30 : 22,
               fontWeight: FontWeight.bold,
               color: AppColors.textDark,
             ),
