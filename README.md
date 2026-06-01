@@ -30,7 +30,7 @@ EduPay is a Flutter-based student expense control mobile application that allows
 
 1. Clone the repository:
 
-   git clone https://github.com/your-username/edupay.git
+   git clone [https://github.com/fathiahmet/student-expense-app.git](https://github.com/fathiahmet/student-expense-app.git)
 
 2. Navigate to the project folder:
 
@@ -64,8 +64,10 @@ EduPay is a Flutter-based student expense control mobile application that allows
 - Backend: [Firebase](https://firebase.google.com)
 - Database: [Cloud Firestore](https://firebase.google.com/products/firestore)
 
-## Screenshots
+## Contributors
 
-| Home Screen              | Add Expense                    | Settings                         |
-| ------------------------ | ------------------------------ | -------------------------------- |
-| ![Home](assets/home.png) | ![Add Expense](assets/add.png) | ![Settings](assets/settings.png) |
+1. fathi Ahmed
+2. Weynishet Dejene
+3. Fadumo Ahmed
+4. Samiya Jamal
+5. Saliha Mohammed
